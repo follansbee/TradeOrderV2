@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Portfolio Home</title>
+</head>
+<BODY>
+<H2 th:align="center">Trade Order Tracker </H2>
+<h4>(aka a dumping ground to practice Spring Boot, Docker, Microservices, AWS, ActiveMQ, REST API ect)</h4>
+
+<p>This is a REST application.   The purpose is take in and give out data.  There is no UI component other than this basic home
+    page.  It would be best to use a tool like Postman to view the JSON objects returned from the endpoints. </p>
+
+
+<table>
+    <th>HTTP METHOD</th>
+    <th>URL</th>
+    <th>Description</th>
+    <tr><td><b><u>Users</u></b></td></tr>
+    <tr>
+        <td>GET </td>
+        <td><a href="http://18.219.170.38/portfolio/user/" target=_blank >/portfolio/user/</a> </td>
+        <td> All Users with all related data</td>
+    </tr>
+    <tr>
+        <td>GET </td>
+        <td><a href="http://18.219.170.38/portfolio/user/1020552" target=_blank >/portfolio/user/{id}</a> </td>
+        <td>Show a specific User with all Details</td>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td><a href="">/portfolio/user/</a> </td>
+        <td><p>Add a User:   <br>Body Example:<br>
+            {
+            "employeeId": "1023322", "firstName": "Julie",<br>
+            "lastName": "Benice", "address1": "8 Acorn Ave",<br>
+            "address2": null, "city": "Bedford",<br>
+            "state": "NH", "zipCode": "03032",<br>
+            "phoneNumber": "603-215-3434",<br>
+            "email": "julie.benice@gmail.com"
+            }</p></td>
+    </tr>
+    <tr><td><b><u>Groups</u></b></td></tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/group/" target=_blank >/portfolio/group/</a> </td>
+        <td>Get  Groups with all related data</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/group/66666" target=_blank >/portfolio/group/{id}</a> </td>
+        <td>Get a specific Group with all related data</td>
+    </tr><tr>
+    <tr>
+        <td>POST</td>
+        <td><a href="">/portfolio/group/</a> </td>
+        <td><p>Add a Group   <br>Body Example:<br>
+            {
+            "groupName" :"Brick Stone Bros",<br>
+            "role" : "USER"
+            }</p></td>
+    </tr>
+    <tr><td><b><u>Trade Order</u></b></td></tr>
+    <tr><td colspan="3">A Trade Order is a purchase of a number of shares of stock</td></tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/tradeorder/" target=_blank >/portfolio/tradeorder/</a> </td>
+        <td>Get All Trade Orders</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/tradeorder/1" target=_blank >/portfolio/tradeorder/{id}</a> </td>
+        <td>Get a specific Trade Order (it also pulls the latest price)</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/tradeorder/user/1020552" target=_blank >/portfolio/tradeorder/user/{id}</a> </td>
+        <td>Get all Trade Orders for a specific user</td>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td><a href="">/portfolio/tradeorder/</a> </td>
+        <td><p>Add a Trade Order   <br>Body Example:<br>
+            {<br>
+            "side": "BUY",   //BUY or SELL<br>
+            "security": "RTN",  <br>
+            "fund": "MAG",<br>
+            "quantity": 10000,<br>
+            "employeeId": "1020552",<br>
+            "groupId": 66666<br>
+            }<br>
+            <font color="red">NOTE:</font>"Security" Needs to be a valid security / symbol.  See /portfolio/stock/ about finding valid securities<br>
+            <font color="red">NOTE:</font>"employeeId" and "groupId" need to be valid groups.
+        </p>
+    </tr>
+    <tr><td><b><u>Data</u></b></td></tr>
+    <tr><td colspan="3"></td></tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/user/update/" target=_blank >/portfolio/reports/summary/user/update/</a> </td>
+        <td>Updates the Portfolio Summary.  (This sends a message to an ActiveMQ broker -hosted on AWS)</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/user/" target=_blank >/portfolio/reports/summary/user/</a> </td>
+        <td>Get Portfolio Summaries for each User</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/user/1020552" target=_blank >/portfolio/reports/summary/user/{id}</a> </td>
+        <td>Get Portfolio Summary for a specific User</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/security/user/1020552" target=_blank >/portfolio/reports/summary/security/user/{employeeid}</a> </td>
+        <td>Get Summaries for all the Securities for a specific User</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/security/RTN/user/1020552" target=_blank >/portfolio/reports/summary/security/{symbol}/user/{employeeid}</a> </td>
+        <td>Get Summaries for all the Securities for a specific User and Security using the Symbol</td>
+    </tr>
+
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/fund/user/1020552" target=_blank >/portfolio/reports/summary/fund/user/{employeeid}</a> </td>
+        <td>Get Summaries for all the Funds for a specific User</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/reports/summary/fund/CANA/user/1020552" target=_blank >/portfolio/reports/summary/fund/{fund}/user/{employeeid}</a> </td>
+        <td>Get Summaries for all the Funds for a specific User and Fund</td>
+    </tr>
+    <tr><td><b><u>History</u></b></td></tr>
+    <tr><td colspan="3"></td></tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/history/" target=_blank >/portfolio/history/</a> </td>
+        <td>Get Daily Value of the Portfolio for all users.  This gets captured once a day.</td>
+    </tr>
+
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/history/user/1020552" target=_blank >/portfolio/history/user/{id}</a> </td>
+        <td>Get Daily Value of the Portfolio for a specific User.  This gets captured once a day.</td>
+    </tr>
+
+    <br>
+    <tr><td colspan="3"><b><u>Stock Information</u></b></td></tr>
+    <tr><td colspan="3">This is pulled from a microservice that sole purpose is to provide Stock information to update the portfolio value</td></tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/stock/T" target=_blank >/portfolio/stock/{symbol}</a> </td>
+        <td>Pulls the latest information about the Stock quote "Symbol" (ie "T" for AT&T)</td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/stock/" target=_blank >/portfolio/stock/</a> </td>
+        <td>Pulls a list of all available Stock "Symbols" </td>
+    </tr>
+
+    <tr>
+        <td>GET</td>
+        <td><a href="http://18.219.170.38/portfolio/test/" target=_blank >/portfolio/updateHistory/</a> </td>
+        <td>Utility Link - updates the Daily History for all users.  Only use if Server gets reset.</td>
+    </tr>
+
+</table>
+<br><br><br><br>
+
+</BODY>
+</HTML>
